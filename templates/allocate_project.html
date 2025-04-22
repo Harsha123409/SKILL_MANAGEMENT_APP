@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Allocate Project</title></head>
+<body>
+  <h2>Allocate Project</h2>
+  <form method="post">
+    <input name="project_name" placeholder="Project Name" required><br>
+    <input name="skill_name" placeholder="Required Skill" required><br>
+    <label>Select Employee:</label>
+    <select name="employee_id">
+      {% for skill in skills %}
+        <option value="{{ skill.user_id }}">
+          {{ skill.owner.name }} ({{ skill.name }} - {{ skill.level }})
+        </option>
+      {% endfor %}
+    </select><br>
+    <button type="submit">Allocate</button>
+  </form>
+</body>
+</html>

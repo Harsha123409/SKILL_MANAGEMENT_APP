@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Dashboard</title></head>
+<body>
+  <h2>Welcome {{ user.name }}</h2>
+  <p>Role: {{ user.role }}</p>
+  <a href="/skills/add?user_id={{ user.id }}">Add Skill</a>
+  <h3>Your Skills</h3>
+  <ul>
+    {% for skill in user.skills %}
+      <li>{{ skill.name }} - {{ skill.level }} (Approved: {{ skill.approved }})</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

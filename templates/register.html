@@ -1,0 +1,230 @@
+<!-- <!DOCTYPE html>
+<html>
+<head><title>Register</title></head>
+<body>
+  <h2>Register</h2>
+  <form method="post">
+    <input name="name" placeholder="Name" required><br>
+    <input name="email" type="email" placeholder="Email" required><br>
+    <input name="password" type="password" placeholder="Password" required><br>
+    <select name="role">
+      <option value="Employee">Employee</option>
+      <option value="Manager">Manager</option>
+    </select><br>
+    <button type="submit">Register</button>
+  </form>
+  <p><a href="/login">Already registered? Login</a></p>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Register</h2>
+    <form method="post">
+      <input name="name" placeholder="Full Name" required>
+      <input name="email" type="email" placeholder="Email Address" required>
+      <input name="password" type="password" placeholder="Create Password" required>
+      <select name="role" required>
+        <option value="Employee">Employee</option>
+        <option value="Manager">Manager</option>
+      </select>
+      <button type="submit">Create Account</button>
+    </form>
+    <p><a href="/login">Already have an account? Log in</a></p>
+  </div>
+</body>
+</html>
+
+
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <title>Register</title>
+   <style>
+     body {
+       background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+       margin: 0;
+       flex-direction: column;
+     }
+ 
+     .scrolling-header {
+       width: 100%;
+       background-color: #4CAF50;
+       color: white;
+       text-align: center;
+       font-size: 24px;
+       padding: 10px 0;
+       position: fixed;
+       top: 0;
+       left: 0;
+       animation: scrollingText 20s linear infinite;
+       white-space: nowrap;
+       font-weight: bold;
+     }
+ 
+     @keyframes scrollingText {
+       from {
+         transform: translateX(100%);
+       }
+       to {
+         transform: translateX(-100%);
+       }
+     }
+ 
+     .container {
+       background-color: #fff;
+       padding: 40px 30px;
+       border-radius: 12px;
+       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+       width: 100%;
+       max-width: 400px;
+       margin-top: 60px; /* Adds space below the scrolling header */
+     }
+ 
+     h2 {
+       text-align: center;
+       margin-bottom: 25px;
+       color: #333;
+     }
+ 
+     input, select, button {
+       width: 100%;
+       padding: 12px;
+       margin: 10px 0;
+       border: 1px solid #ccc;
+       border-radius: 8px;
+       font-size: 16px;
+     }
+ 
+     button {
+       background-color: #4CAF50;
+       color: white;
+       border: none;
+       cursor: pointer;
+       transition: background-color 0.3s ease;
+     }
+ 
+     button:hover {
+       background-color: #45a049;
+     }
+ 
+     p {
+       text-align: center;
+       margin-top: 20px;
+     }
+ 
+     a {
+       color: #007bff;
+       text-decoration: none;
+     }
+ 
+     a:hover {
+       text-decoration: underline;
+     }
+   </style>
+ </head>
+ <body>
+   <div class="scrolling-header">
+     SKILL MANAGEMENT APP PORTAL
+   </div>
+   <div class="container">
+     <h2>Register</h2>
+     <form method="post">
+       <input name="name" placeholder="Full Name" required>
+       <input name="email" type="email" placeholder="Email Address" required>
+       <input name="password" type="password" placeholder="Create Password" required>
+       <select name="role" required>
+         <option value="Employee">Employee</option>
+         <option value="Manager">Manager</option>
+       </select>
+       <button type="submit">Create Account</button>
+     </form>
+     <p><a href="/login">Already have an account? Log in</a></p>
+   </div>
+ </body>
+ </html>
+ 

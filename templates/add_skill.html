@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Skill</title></head>
+<body>
+  <h2>Add Skill</h2>
+  <form method="post">
+    <input type="hidden" name="user_id" value="{{ user_id }}">
+    <input name="name" placeholder="Skill Name" required><br>
+    <input name="level" placeholder="Skill Level (e.g. Beginner, Intermediate)" required><br>
+    <button type="submit">Add Skill</button>
+  </form>
+</body>
+</html>
