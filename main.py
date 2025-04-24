@@ -86,6 +86,11 @@ def add_skill(
     crud.add_skill(db, skill, user_id)
     return RedirectResponse(url=f"/dashboard/{user_id}", status_code=302)
 
+@app.post("/skills/delete")
+def delete_skill(skill_id: int = Form(...), user_id: int = Form(...), db: Session = Depends(get_db)):
+    crud.delete_skill(db, skill_id)
+    return RedirectResponse(url=f"/dashboard/{user_id}", status_code=302)
+
 
 # -----------------------------------
 # Manager Dashboard - Review Skills

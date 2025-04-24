@@ -18,6 +18,11 @@ def add_skill(db: Session, skill, user_id):
     db.add(db_skill)
     db.commit()
     return db_skill
+def delete_skill(db: Session, skill_id: int):
+    skill = db.query(Skill).get(skill_id)
+    if skill:
+        db.delete(skill)
+        db.commit()
 
 def approve_skill(db: Session, skill_id):
     skill = db.query(Skill).get(skill_id)
