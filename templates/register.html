@@ -1,37 +1,8 @@
-<!-- <!DOCTYPE html>
-<html>
-<head><title>Register</title></head>
-<body>
-  <h2>Register</h2>
-  <form method="post">
-    <input name="name" placeholder="Name" required><br>
-    <input name="email" type="email" placeholder="Email" required><br>
-    <input name="password" type="password" placeholder="Password" required><br>
-    <select name="role">
-      <option value="Employee">Employee</option>
-      <option value="Manager">Manager</option>
-    </select><br>
-    <button type="submit">Register</button>
-  </form>
-  <p><a href="/login">Already registered? Login</a></p>
-</body>
-</html> -->
-
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title>📝 Register | Skill Portal</title>
   <style>
     body {
       background: linear-gradient(to right, #a1c4fd, #c2e9fb);
@@ -41,190 +12,138 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      flex-direction: column;
+    }
+
+    .scrolling-header {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      font-size: 22px;
+      padding: 12px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      font-weight: bold;
+      overflow: hidden;
+    }
+
+    .scrolling-header span {
+      display: inline-block;
+      animation: scroll 15s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .scrolling-header::before,
+    .scrolling-header::after {
+      content: "🔥";
+      animation: flicker 1s infinite;
+      margin: 0 10px;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
     }
 
     .container {
-      background-color: #fff;
+      background: rgba(255, 255, 255, 0.95);
       padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 420px;
+      margin-top: 80px;
+      text-align: center;
+      animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #333;
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #2d3436;
     }
 
     input, select, button {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
+      padding: 14px;
+      margin: 12px 0;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 16px;
     }
 
+    input::placeholder {
+      color: #999;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+    }
+
     button {
-      background-color: #4CAF50;
+      background: linear-gradient(to right, #00b894, #00cec9);
       color: white;
       border: none;
+      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     button:hover {
-      background-color: #45a049;
+      background: linear-gradient(to right, #00cec9, #00b894);
+      transform: scale(1.05);
     }
 
     p {
-      text-align: center;
-      margin-top: 20px;
+      margin-top: 15px;
+      font-size: 14px;
     }
 
     a {
-      color: #007bff;
+      color: #2980b9;
       text-decoration: none;
+      font-weight: bold;
     }
 
     a:hover {
       text-decoration: underline;
     }
+
   </style>
 </head>
 <body>
+  <div class="scrolling-header">
+    <span>✨ Welcome to Skill Management Registration Portal ✨</span>
+  </div>
+
   <div class="container">
-    <h2>Register</h2>
+    <h2>📝 Create Your Account</h2>
     <form method="post">
-      <input name="name" placeholder="Full Name" required>
-      <input name="email" type="email" placeholder="Email Address" required>
-      <input name="password" type="password" placeholder="Create Password" required>
+      <input name="name" placeholder="👤 Full Name" required>
+      <input name="email" type="email" placeholder="📧 Email Address" required>
+      <input name="password" type="password" placeholder="🔑 Create Password" required>
       <select name="role" required>
-        <option value="Employee">Employee</option>
-        <option value="Manager">Manager</option>
+        <option value="" disabled selected>👥 Select Role</option>
+        <option value="Employee">👨‍💻 Employee</option>
+        <option value="Manager">👩‍💼 Manager</option>
       </select>
-      <button type="submit">Create Account</button>
+      <button type="submit">🚀 Create Account</button>
     </form>
-    <p><a href="/login">Already have an account? Log in</a></p>
+    <p>Already registered? <a href="/login">🔐 Log in here</a></p>
   </div>
 </body>
 </html>
-
-
- -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
-   <meta charset="UTF-8">
-   <title>Register</title>
-   <style>
-     body {
-       background: linear-gradient(to right, #a1c4fd, #c2e9fb);
-       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       height: 100vh;
-       margin: 0;
-       flex-direction: column;
-     }
- 
-     .scrolling-header {
-       width: 100%;
-       background-color: #4CAF50;
-       color: white;
-       text-align: center;
-       font-size: 24px;
-       padding: 10px 0;
-       position: fixed;
-       top: 0;
-       left: 0;
-       animation: scrollingText 20s linear infinite;
-       white-space: nowrap;
-       font-weight: bold;
-     }
- 
-     @keyframes scrollingText {
-       from {
-         transform: translateX(100%);
-       }
-       to {
-         transform: translateX(-100%);
-       }
-     }
- 
-     .container {
-       background-color: #fff;
-       padding: 40px 30px;
-       border-radius: 12px;
-       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-       width: 100%;
-       max-width: 400px;
-       margin-top: 60px; /* Adds space below the scrolling header */
-     }
- 
-     h2 {
-       text-align: center;
-       margin-bottom: 25px;
-       color: #333;
-     }
- 
-     input, select, button {
-       width: 100%;
-       padding: 12px;
-       margin: 10px 0;
-       border: 1px solid #ccc;
-       border-radius: 8px;
-       font-size: 16px;
-     }
- 
-     button {
-       background-color: #4CAF50;
-       color: white;
-       border: none;
-       cursor: pointer;
-       transition: background-color 0.3s ease;
-     }
- 
-     button:hover {
-       background-color: #45a049;
-     }
- 
-     p {
-       text-align: center;
-       margin-top: 20px;
-     }
- 
-     a {
-       color: #007bff;
-       text-decoration: none;
-     }
- 
-     a:hover {
-       text-decoration: underline;
-     }
-   </style>
- </head>
- <body>
-   <div class="scrolling-header">
-     SKILL MANAGEMENT APP PORTAL
-   </div>
-   <div class="container">
-     <h2>Register</h2>
-     <form method="post">
-       <input name="name" placeholder="Full Name" required>
-       <input name="email" type="email" placeholder="Email Address" required>
-       <input name="password" type="password" placeholder="Create Password" required>
-       <select name="role" required>
-         <option value="Employee">Employee</option>
-         <option value="Manager">Manager</option>
-       </select>
-       <button type="submit">Create Account</button>
-     </form>
-     <p><a href="/login">Already have an account? Log in</a></p>
-   </div>
- </body>
- </html>
- 

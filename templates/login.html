@@ -1,16 +1,154 @@
+
 <!DOCTYPE html>
-<html>
-<head><title>Login</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🔐 Login - Skill Portal</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .scrolling-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(44, 62, 80, 0.9);
+      color: #fff;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 14px 0;
+      text-align: center;
+      z-index: 999;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .scrolling-header span {
+      display: inline-block;
+      animation: marquee 12s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .container {
+      margin-top: 100px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      color: #ffffff;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+
+    .emoji-lock {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border-radius: 10px;
+      font-size: 16px;
+      border: none;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    input::placeholder {
+      color: #f0f0f0;
+    }
+
+    button {
+      background: linear-gradient(to right, #00b894, #00cec9);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #00cec9, #00b894);
+      transform: scale(1.05);
+    }
+
+    a {
+      color: #ffeaa7;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .msg {
+      color: #ff7675;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
 <body>
-  <h2>Login</h2>
-  {% if msg %}
-    <p style="color:red">{{ msg }}</p>
-  {% endif %}
-  <form method="post">
-    <input name="email" type="email" placeholder="Email" required><br>
-    <input name="password" type="password" placeholder="Password" required><br>
-    <button type="submit">Login</button>
-  </form>
-  <p><a href="/register">Don't have an account? Register</a></p>
+
+  <div class="scrolling-header">
+    <span>🚀 Welcome to Skill Management Portal — Secure Login 🔐</span>
+  </div>
+
+  <div class="container">
+    <div class="emoji-lock">🔐</div>
+    <h2>Login to Your Account</h2>
+    
+    {% if msg %}
+      <p class="msg">⚠️ {{ msg }}</p>
+    {% endif %}
+    
+    <form method="post">
+      <input name="email" type="email" placeholder="📧 Email" required><br>
+      <input name="password" type="password" placeholder="🔑 Password" required><br>
+      <button type="submit">➡️ Login</button>
+    </form>
+
+    <p>👤 New here? <a href="/register">Register Now</a></p>
+  </div>
+
 </body>
 </html>

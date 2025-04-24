@@ -125,6 +125,17 @@ def assign_project(
 ):
     crud.assign_project(db, project_name, skill_name, employee_id)
     return RedirectResponse(url="/projects/allocate", status_code=302)
+@app.get("/projects/view", response_class=HTMLResponse)
+def view_projects(request: Request, db: Session = Depends(get_db)):
+    projects = db.query(models.Project).all()
+    users = db.query(models.User).all()
+    user_dict = {user.id: user.name for user in users}
+
+    return templates.TemplateResponse("view_projects.html", {
+        "request": request,
+        "projects": projects,
+        "user_dict": user_dict
+    })
 
 
 # -----------------------------

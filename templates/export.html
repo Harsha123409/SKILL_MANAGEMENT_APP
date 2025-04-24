@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head><title>Export Skills</title></head>
 <body>
@@ -9,5 +9,108 @@
     </label><br>
     <button type="submit">Export to Excel</button>
   </form>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Export Skills</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffffcc;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      color: #4a148c;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      margin-bottom: 15px;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.4);
+      accent-color: #4CAF50;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #43e97b, #38f9d7);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(45deg, #2dcf65, #29e1c6);
+    }
+
+    .emoji {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">📤💼📈</div>
+    <h2>Export Skills to Excel</h2>
+    <p>📁 Download all employee skill data.<br>Filter by approved skills if needed ✅</p>
+    <form method="post">
+      <label>
+        <input type="checkbox" name="approved_only" value="true">
+        ✅ Only Approved Skills
+      </label>
+      <button type="submit">📊 Export to Excel</button>
+    </form>
+  </div>
 </body>
 </html>

@@ -1,19 +1,136 @@
 <!DOCTYPE html>
-<html>
-<head><title>Manager Dashboard</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧠 Manager Dashboard</title>
+  <style>
+    body {
+      background: linear-gradient(to right top, #fceabb, #f8b500);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px;
+      color: #2d3436;
+      overflow-x: hidden;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #2c3e50;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h3 {
+      background-color: #6c5ce7;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 10px;
+      margin-top: 35px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      font-size: 20px;
+      position: relative;
+    }
+
+    h3::before {
+      content: "👤 ";
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background-color: #ffeaa7;
+      padding: 16px 20px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border-left: 6px solid #fd79a8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li:hover {
+      transform: scale(1.02);
+      background-color: #fab1a0;
+    }
+
+    .skill-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skill-info span {
+      margin: 2px 0;
+    }
+
+    .approved-yes {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+
+    .approved-no {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    button {
+      background-color: #00b894;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 15px;
+    }
+
+    button:hover {
+      background-color: #019875;
+    }
+
+    form {
+      margin: 0;
+    }
+  </style>
+</head>
 <body>
-  <h2>Manager Dashboard</h2>
+  <h2>🧠 Manager Dashboard</h2>
+
   {% for employee in employees %}
-    <h3>{{ employee.name }} ({{ employee.email }})</h3>
+    <h3>{{ employee.name }} 📧 {{ employee.email }}</h3>
     <ul>
       {% for skill in employee.skills %}
         <li>
-          {{ skill.name }} - {{ skill.level }} | Approved: {{ skill.approved }}
+          <div class="skill-info">
+            <span>📘 <strong>{{ skill.name }}</strong></span>
+            <span>📈 Level: {{ skill.level }}</span>
+            <span>
+              {% if skill.approved %}
+                ✅ <span class="approved-yes">Approved</span>
+              {% else %}
+                ❌ <span class="approved-no">Pending Approval</span>
+              {% endif %}
+            </span>
+          </div>
+
           {% if not skill.approved %}
-            <form method="post" action="/skills/approve" style="display:inline;">
+            <form method="post" action="/skills/approve">
               <input type="hidden" name="skill_id" value="{{ skill.id }}">
               <input type="hidden" name="manager_id" value="{{ manager_id }}">
-              <button type="submit">Approve</button>
+              <button type="submit">✔️ Approve</button>
             </form>
           {% endif %}
         </li>

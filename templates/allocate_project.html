@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head><title>Allocate Project</title></head>
 <body>
@@ -16,5 +16,127 @@
     </select><br>
     <button type="submit">Allocate</button>
   </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🚧 Allocate Project</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(to right, #d3cce3, #e9e4f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffffee;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      font-size: 28px;
+      color: #4a148c;
+      margin-bottom: 20px;
+    }
+
+    .emoji {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #7b1fa2;
+      outline: none;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      display: block;
+      margin-top: 15px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #8e24aa, #5e35b1);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #6a1b9a, #4527a0);
+      transform: scale(1.05);
+    }
+
+    .note {
+      font-size: 14px;
+      color: #555;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">🏗️📋👥</div>
+    <h2>Allocate Project</h2>
+    <form method="post">
+      <input name="project_name" placeholder="📁 Project Name" required><br>
+      <input name="skill_name" placeholder="🛠️ Required Skill" required><br>
+      
+      <label>👤 Select Employee:</label>
+      <select name="employee_id" required>
+        {% for skill in skills %}
+          <option value="{{ skill.user_id }}">
+            👨‍💻 {{ skill.owner.name }} — {{ skill.name }} ({{ skill.level }})
+          </option>
+        {% endfor %}
+      </select><br>
+
+      <button type="submit">🚀 Allocate</button>
+    </form>
+    <p class="note">✅ Only employees with approved skills are shown here.</p>
+  </div>
 </body>
 </html>

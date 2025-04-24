@@ -32,3 +32,4 @@ def assign_project(db: Session, project_name, skill_name, employee_id):
     db.add(db_project)
     db.commit()
     return db_project
+
