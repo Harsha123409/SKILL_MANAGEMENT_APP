@@ -103,6 +103,15 @@ def manager_dashboard(request: Request, manager_id: int, db: Session = Depends(g
         "manager_id": manager_id,
         "employees": employees
     })
+@app.post("/employee/delete")
+def delete_employee(
+    employee_id: int = Form(...),
+    manager_id: int = Form(...),
+    db: Session = Depends(get_db)
+):
+    crud.delete_user(db, employee_id)
+    return RedirectResponse(url=f"/manager/{manager_id}", status_code=302)
+
 
 @app.post("/skills/approve")
 def approve_skill(skill_id: int = Form(...), manager_id: int = Form(...), db: Session = Depends(get_db)):
