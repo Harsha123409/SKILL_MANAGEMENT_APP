@@ -1,116 +1,152 @@
 <!-- <!DOCTYPE html>
 <html>
-<head><title>Add Skill</title></head>
+<head>
+    <title>Add Skill</title>
+</head>
 <body>
-  <h2>Add Skill</h2>
-  <form method="post">
-    <input type="hidden" name="user_id" value="{{ user_id }}">
-    <input name="name" placeholder="Skill Name" required><br>
-    <input name="level" placeholder="Skill Level (e.g. Beginner, Intermediate)" required><br>
-    <button type="submit">Add Skill</button>
-  </form>
+    <h2>Add a New Skill</h2>
+    <form method="post" action="/skills/add">
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+        <label>Skill Name:</label><br>
+        <input type="text" name="name" required><br><br>
+        <label>Skill Level:</label><br>
+        <select name="level">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Expert">Expert</option>
+        </select><br><br>
+        <button type="submit">Add Skill</button>
+    </form>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🛠️ Add New Skill</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #fce4ec);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <title>Skill Management App - Add Skill</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background: linear-gradient(-45deg, #00dbde, #fc00ff, #00c3ff, #ffff1c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
 
-    .container {
-      background-color: #ffffffee;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      animation: fadeInUp 0.6s ease;
-    }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .scrolling-heading {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 100;
+        }
 
-    h2 {
-      color: #880e4f;
-      font-size: 28px;
-      margin-bottom: 25px;
-    }
+        .scrolling-heading span {
+            color: #00ffe1;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ffe1;
+            display: inline-block;
+            animation: scrollText 12s linear infinite;
+        }
 
-    .emoji {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
 
-    input {
-      width: 90%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: border 0.3s ease;
-    }
+        .form-box {
+            margin-top: 100px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
 
-    input:focus {
-      border-color: #7e57c2;
-      outline: none;
-    }
+        h2 {
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 8px #00ffff;
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      background: linear-gradient(45deg, #7e57c2, #64b5f6);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
+        label {
+            font-weight: bold;
+        }
 
-    button:hover {
-      background: linear-gradient(45deg, #5e35b1, #42a5f5);
-      transform: scale(1.05);
-    }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+        }
 
-    .note {
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(to right, #00ffe1, #1e90ff);
+            color: #000;
+            box-shadow: 0 0 10px #00ffe1;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #1e90ff, #00ffe1);
+            box-shadow: 0 0 15px #00ffe1;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="emoji">💼➕🛠️</div>
-    <h2>Add a New Skill</h2>
-    <form method="post">
-      <input type="hidden" name="user_id" value="{{ user_id }}">
-      <input name="name" placeholder="📘 Skill Name (e.g. React, Python)" required><br>
-      <input name="level" placeholder="📈 Skill Level (e.g. Beginner, Intermediate)" required><br>
-      <button type="submit">🚀 Add Skill</button>
-    </form>
-    <p class="note">🎯 Keep your skills updated to get assigned to projects faster!</p>
-  </div>
+
+    <div class="scrolling-heading">
+        <span>🌟 Skill Management App - Add a New Skill Below 🌟</span>
+    </div>
+
+    <div class="form-box">
+        <h2>Add a New Skill</h2>
+        <form method="post" action="/skills/add">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            
+            <label for="name">Skill Name:</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="level">Skill Level:</label>
+            <select name="level" id="level">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Expert">Expert</option>
+            </select>
+
+            <button type="submit">Add Skill</button>
+        </form>
+    </div>
+
 </body>
 </html>

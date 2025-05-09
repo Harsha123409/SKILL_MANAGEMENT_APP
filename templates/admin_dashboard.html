@@ -1,0 +1,211 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <h3>All Users:</h3>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Assign New Role</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <form method="post" action="/admin/assign_role">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="hidden" name="admin_id" value="{{ admin_id }}">
+                    <select name="role">
+                        <option value="Employee" {% if user.role == 'Employee' %}selected{% endif %}>Employee</option>
+                        <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
+                        <option value="Admin" {% if user.role == 'Admin' %}selected{% endif %}>Admin</option>
+                    </select>
+                    <button type="submit">Update Role</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> -->
+<!-- --------------------------------------------------------------------------- -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skill Management App - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background: linear-gradient(-45deg, #7b2ff7, #f107a3, #00c9ff, #92fe9d);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .scrolling-heading {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .scrolling-heading span {
+            color: #00ffe1;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ffe1;
+            display: inline-block;
+            animation: scrollText 14s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .dashboard {
+            margin-top: 80px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00e6ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        select, button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        select {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        button {
+            background: linear-gradient(to right, #00ffe1, #1e90ff);
+            color: #000;
+            font-weight: bold;
+            margin-top: 5px;
+            box-shadow: 0 0 10px #00ffe1;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #1e90ff, #00ffe1);
+            box-shadow: 0 0 15px #00ffe1;
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scrolling-heading">
+        <span>🛠️ Admin Dashboard - Skill Management App | Assign and Manage User Roles Easily</span>
+    </div>
+
+    <div class="dashboard">
+        <h2>Admin Dashboard</h2>
+        <h3>All Users</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Current Role</th>
+                    <th>Assign New Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <form method="post" action="/admin/assign_role">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <input type="hidden" name="admin_id" value="{{ admin_id }}">
+                            <select name="role">
+                                <option value="Employee" {% if user.role == 'Employee' %}selected{% endif %}>Employee</option>
+                                <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
+                                <option value="Admin" {% if user.role == 'Admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                            <br>
+                            <button type="submit">Update Role</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
+

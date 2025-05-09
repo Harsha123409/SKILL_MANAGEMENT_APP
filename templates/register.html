@@ -1,149 +1,208 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <form method="post" action="/register">
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br><br>
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
+        <label>Role:</label><br>
+        <select name="role">
+            <option value="Employee" selected>Employee</option>
+            <option value="Manager">Manager</option>
+            <option value="Admin">Admin</option>
+        </select><br><br>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a>.</p>
+</body>
+</html> -->
+<!-- -------------------------------------------------------------------------- -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>📝 Register | Skill Portal</title>
+  <title>Skill Management App - Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* Background Animation */
     body {
-      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      flex-direction: column;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(-45deg, #ff4e50, #1e90ff, #34e89e, #f9d423);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .scrolling-header {
-      width: 100%;
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      font-size: 22px;
-      padding: 12px 0;
-      position: fixed;
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Scroll Text */
+    .scrolling-heading {
+      position: absolute;
       top: 0;
-      left: 0;
-      font-weight: bold;
+      width: 100%;
       overflow: hidden;
-    }
-
-    .scrolling-header span {
-      display: inline-block;
-      animation: scroll 15s linear infinite;
       white-space: nowrap;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 0;
     }
 
-    @keyframes scroll {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+    .scrolling-heading span {
+      display: inline-block;
+      color: #00ffe1;
+      font-size: 1.4em;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00ffe1;
+      animation: scrollText 12s linear infinite;
     }
 
-    .scrolling-header::before,
-    .scrolling-header::after {
-      content: "🔥";
-      animation: flicker 1s infinite;
-      margin: 0 10px;
+    @keyframes scrollText {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
 
-    @keyframes flicker {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.2); }
-    }
-
+    /* Glass Form Card */
     .container {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 40px;
       width: 90%;
-      max-width: 420px;
-      margin-top: 80px;
-      text-align: center;
-      animation: fadeIn 0.7s ease;
+      max-width: 450px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      animation: fadeInUp 1s ease-out;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeInUp {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     h2 {
-      margin-bottom: 20px;
+      text-align: center;
+      margin-bottom: 30px;
       font-size: 28px;
-      color: #2d3436;
+      color: #ffffff;
+      text-shadow: 0 0 8px #00ffe1;
     }
 
-    input, select, button {
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    input, select {
       width: 100%;
-      padding: 14px;
-      margin: 12px 0;
-      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 20px;
       border-radius: 10px;
+      border: none;
+      outline: none;
       font-size: 16px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
     }
 
     input::placeholder {
-      color: #999;
+      color: #ddd;
     }
 
-    input:focus, select:focus {
-      outline: none;
-      border-color: #4CAF50;
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+    select {
+      color: #333;
     }
 
     button {
-      background: linear-gradient(to right, #00b894, #00cec9);
-      color: white;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #00ffe1, #1e90ff);
+      color: #000;
       border: none;
       font-weight: bold;
+      font-size: 16px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px #00ffe1, 0 0 20px #1e90ff;
     }
 
     button:hover {
-      background: linear-gradient(to right, #00cec9, #00b894);
-      transform: scale(1.05);
+      background: linear-gradient(to right, #1e90ff, #00ffe1);
+      box-shadow: 0 0 20px #00ffe1, 0 0 30px #1e90ff;
     }
 
     p {
-      margin-top: 15px;
+      text-align: center;
+      margin-top: 20px;
       font-size: 14px;
     }
 
     a {
-      color: #2980b9;
-      text-decoration: none;
+      color: #ffeb3b;
       font-weight: bold;
+      text-decoration: none;
     }
 
     a:hover {
       text-decoration: underline;
     }
 
+    @media (max-width: 500px) {
+      h2 {
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="scrolling-header">
-    <span>✨ Welcome to Skill Management Registration Portal ✨</span>
+
+  <div class="scrolling-heading">
+    <span>✨ Welcome to the Skill Management App — Build, Track & Level Up Your Skills! 🚀</span>
   </div>
 
   <div class="container">
-    <h2>📝 Create Your Account</h2>
-    <form method="post">
-      <input name="name" placeholder="👤 Full Name" required>
-      <input name="email" type="email" placeholder="📧 Email Address" required>
-      <input name="password" type="password" placeholder="🔑 Create Password" required>
+    <h2>Register Now</h2>
+    <form method="post" action="/register">
+      <label for="name">Full Name</label>
+      <input type="text" name="name" placeholder="Your Name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+
+      <label for="role">Select Role</label>
       <select name="role" required>
-        <option value="" disabled selected>👥 Select Role</option>
-        <option value="Employee">👨‍💻 Employee</option>
-        <option value="Manager">👩‍💼 Manager</option>
+        <option value="Employee" selected>Employee</option>
+        <option value="Manager">Manager</option>
+        <option value="Admin">Admin</option>
       </select>
-      <button type="submit">🚀 Create Account</button>
+
+      <button type="submit">Register</button>
     </form>
-    <p>Already registered? <a href="/login">🔐 Log in here</a></p>
+    <p>Already have an account? <a href="/login">Login here</a>.</p>
   </div>
+
 </body>
 </html>

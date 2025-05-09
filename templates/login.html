@@ -1,90 +1,86 @@
+<!-- 
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🔐 Login - Skill Portal</title>
+  <title>Skill Management App - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: linear-gradient(135deg, #74ebd5, #9face6);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      overflow: hidden;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b, #ff6a00, #ffcc00, #00c9ff, #1e90ff);
+      background-size: 400% 400%;
+      animation: colorfulFlow 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .scrolling-header {
-      position: fixed;
+    @keyframes colorfulFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .scrolling-heading {
+      position: absolute;
       top: 0;
       width: 100%;
-      background: rgba(44, 62, 80, 0.9);
-      color: #fff;
-      font-size: 22px;
-      font-weight: bold;
-      padding: 14px 0;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 0;
       text-align: center;
       z-index: 999;
-      white-space: nowrap;
-      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
     }
 
-    .scrolling-header span {
-      display: inline-block;
-      animation: marquee 12s linear infinite;
-    }
-
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+    .scrolling-heading span {
+      color: #ffeb3b;
+      font-size: 1.4em;
+      font-weight: bold;
+      text-shadow: 0 0 8px #ff9800;
     }
 
     .container {
-      margin-top: 100px;
       background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       border-radius: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
       padding: 40px;
       width: 90%;
       max-width: 400px;
-      text-align: center;
-      color: #ffffff;
-      animation: fadeIn 0.6s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid #fff;
+      color: #fff;
     }
 
     h2 {
-      font-size: 30px;
-      margin-bottom: 18px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #ffffff;
+      text-shadow: 0 0 6px #00c9ff;
     }
 
-    .emoji-lock {
-      font-size: 40px;
-      margin-bottom: 8px;
-    }
-
-    input, button {
-      width: 100%;
-      padding: 14px;
-      margin: 12px 0;
-      border-radius: 10px;
-      font-size: 16px;
-      border: none;
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+      color: #ffeb3b;
     }
 
     input {
-      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.25);
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 16px;
     }
 
     input::placeholder {
@@ -92,62 +88,274 @@
     }
 
     button {
-      background: linear-gradient(to right, #00b894, #00cec9);
-      color: white;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #000;
       font-weight: bold;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 0 10px #00c9ff;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background: linear-gradient(to right, #00cec9, #00b894);
-      transform: scale(1.05);
+      background: linear-gradient(to right, #ff4b2b, #ffeb3b);
+      box-shadow: 0 0 20px #ff9800;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #fff;
     }
 
     a {
-      color: #ffeaa7;
-      text-decoration: none;
+      color: #03fcd3;
       font-weight: bold;
+      text-decoration: none;
     }
 
     a:hover {
       text-decoration: underline;
+      color: #ffeb3b;
     }
 
-    .msg {
-      color: #ff7675;
-      margin-top: 10px;
+    .error-message {
+      background: rgba(255, 0, 0, 0.5);
+      padding: 10px;
+      border: 2px solid #ff1744;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #fff;
+      text-align: center;
       font-weight: bold;
-      font-size: 15px;
+      text-shadow: 0 0 6px #000;
     }
 
-    p {
-      margin-top: 20px;
-      font-size: 14px;
+    @media (max-width: 500px) {
+      h2 { font-size: 22px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="scrolling-header">
-    <span>🚀 Welcome to Skill Management Portal — Secure Login 🔐</span>
+  <div class="scrolling-heading">
+    <span>🔐 Welcome to Skill Management App — Please log in to continue 👤</span>
   </div>
 
   <div class="container">
-    <div class="emoji-lock">🔐</div>
-    <h2>Login to Your Account</h2>
-    
+    <h2>User Login</h2>
     {% if msg %}
-      <p class="msg">⚠️ {{ msg }}</p>
+      <div class="error-message">{{ msg }}</div>
     {% endif %}
-    
-    <form method="post">
-      <input name="email" type="email" placeholder="📧 Email" required><br>
-      <input name="password" type="password" placeholder="🔑 Password" required><br>
-      <button type="submit">➡️ Login</button>
+    <form method="post" action="/login">
+      <label for="email">Email:</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register here</a>.</p>
+  </div>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skill Management App - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b, #ff6a00, #ffcc00, #00c9ff, #1e90ff);
+      background-size: 400% 400%;
+      animation: colorfulFlow 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @keyframes colorfulFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .scrolling-heading {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 0;
+      text-align: center;
+      z-index: 999;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .scrolling-heading span {
+      color: #ffeb3b;
+      font-size: 1.4em;
+      font-weight: bold;
+      text-shadow: 0 0 8px #ff9800;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid #fff;
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #ffffff;
+      text-shadow: 0 0 6px #00c9ff;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+      color: #ffeb3b;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #f0f0f0;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00c9ff;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #ff4b2b, #ffeb3b);
+      box-shadow: 0 0 20px #ff9800;
+    }
+
+    .forgot-password {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .forgot-password a {
+      color: #ffeb3b;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid #fff;
+      border-radius: 8px;
+      display: inline-block;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .forgot-password a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: #000;
+      text-shadow: 0 0 5px #ffeb3b;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    a {
+      color: #03fcd3;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #ffeb3b;
+    }
+
+    .error-message {
+      background: rgba(255, 0, 0, 0.5);
+      padding: 10px;
+      border: 2px solid #ff1744;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 0 6px #000;
+    }
+
+    @media (max-width: 500px) {
+      h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scrolling-heading">
+    <span>🔐 Welcome to Skill Management App — Please log in to continue 👤</span>
+  </div>
+
+  <div class="container">
+    <h2>User Login</h2>
+    {% if msg %}
+      <div class="error-message">{{ msg }}</div>
+    {% endif %}
+    <form method="post" action="/login">
+      <label for="email">Email:</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+
+      <button type="submit">Login</button>
+
+      <!-- Forgot Password Button -->
+      <div class="forgot-password">
+        <a href="/forgot-password">Forgot Password?</a>
+      </div>
     </form>
 
-    <p>👤 New here? <a href="/register">Register Now</a></p>
+    <p>Don't have an account? <a href="/register">Register here</a>.</p>
   </div>
 
 </body>

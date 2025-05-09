@@ -1,128 +1,319 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🏠 Employee Dashboard</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #d3cce3, #e9e4f0);
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    <meta charset="UTF-8">
+    <title>{{ user.name }}'s Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+        }
 
-    h2 {
-      color: #2c3e50;
-      font-size: 32px;
-    }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
 
-    p {
-      font-size: 18px;
-      color: #34495e;
-      margin-bottom: 30px;
-    }
+        .scrolling-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 14px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 100;
+        }
 
-    a.add-skill {
-      display: inline-block;
-      padding: 12px 20px;
-      background: linear-gradient(to right, #00b894, #00cec9);
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+        .scrolling-header span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ffe1;
+            text-shadow: 0 0 10px #00ffe1;
+            display: inline-block;
+            animation: scrollText 12s linear infinite;
+        }
 
-    table {
-      width: 90%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-    }
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
 
-    th, td {
-      padding: 14px 16px;
-      text-align: left;
-    }
+        .dashboard {
+            margin-top: 80px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.3);
+        }
 
-    thead {
-      background: linear-gradient(to right, #74ebd5, #9face6);
-      color: #2c3e50;
-    }
+        h2, h3 {
+            text-align: center;
+            text-shadow: 0 0 8px #00ffff;
+        }
 
-    tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-    .approved-yes {
-      color: green;
-      font-weight: bold;
-    }
+        li {
+            background-color: rgba(255,255,255,0.2);
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
 
-    .approved-no {
-      color: red;
-      font-weight: bold;
-    }
+        .status-approved {
+            color: #00ff88;
+        }
 
-    .delete-btn {
-      background: linear-gradient(45deg, #ff7675, #d63031);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      font-size: 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+        .status-pending {
+            color: #ffcc00;
+        }
 
-    .delete-btn:hover {
-      background: linear-gradient(45deg, #d63031, #ff7675);
-    }
-  </style>
+        .btn-add {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, #00ffe1, #1e90ff);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 10px #00ffe1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background: linear-gradient(to right, #1e90ff, #00ffe1);
+            box-shadow: 0 0 15px #00ffe1;
+        }
+    </style>
 </head>
 <body>
 
-  <h2>👋 Welcome, {{ user.name }}!</h2>
-  <p>🎓 Role: <strong>{{ user.role }}</strong></p>
+    <div class="scrolling-header">
+        <span>👤 Welcome to {{ user.name }}'s Skill Dashboard 🚀</span>
+    </div>
 
-  <a class="add-skill" href="/skills/add?user_id={{ user.id }}">➕ Add New Skill</a>
+    <div class="dashboard">
+        <h2>Hello, {{ user.name }}!</h2>
+        <h3>Your Skills</h3>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📚 Skill Name</th>
-        <th>📈 Level</th>
-        <th>✅ Approval</th>
-        <th>🗑️ Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for skill in user.skills %}
-      <tr>
-        <td>{{ skill.name }}</td>
-        <td>{{ skill.level }}</td>
-        <td>
-          {% if skill.approved %}
-            ✅ <span class="approved-yes">Approved</span>
-          {% else %}
-            ❌ <span class="approved-no">Not Approved</span>
-          {% endif %}
-        </td>
-        <td>
-          <form method="post" action="/skills/delete" onsubmit="return confirm('Are you sure you want to delete this skill?')">
-            <input type="hidden" name="skill_id" value="{{ skill.id }}">
-            <input type="hidden" name="user_id" value="{{ user.id }}">
-            <button class="delete-btn" type="submit">🗑️ Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        {% if user.skills %}
+            <ul>
+                {% for skill in user.skills %}
+                    <li>
+                        {{ skill.name }} - {{ skill.level }}
+                        <span class="{% if skill.approved %}status-approved{% else %}status-pending{% endif %}">
+                            {% if skill.approved %}(Approved){% else %}(Pending){% endif %}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align: center; font-weight: bold;">No skills added yet.</p>
+        {% endif %}
+
+        <a class="btn-add" href="/skills/add?user_id={{ user.id }}">➕ Add New Skill</a>
+    </div>
+
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.name }}'s Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .scrolling-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 14px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .scrolling-header span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ffe1;
+            text-shadow: 0 0 10px #00ffe1;
+            display: inline-block;
+            animation: scrollText 12s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .dashboard {
+            margin-top: 80px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.3);
+        }
+
+        h2, h3 {
+            text-align: center;
+            text-shadow: 0 0 8px #00ffff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: rgba(255,255,255,0.2);
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-approved {
+            color: #00ff88;
+        }
+
+        .status-pending {
+            color: #ffcc00;
+        }
+
+        .btn-add {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, #00ffe1, #1e90ff);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 10px #00ffe1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background: linear-gradient(to right, #1e90ff, #00ffe1);
+            box-shadow: 0 0 15px #00ffe1;
+        }
+
+        .delete-form {
+            margin-left: 15px;
+        }
+
+        .delete-form button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .delete-form button:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scrolling-header">
+        <span>👤 Welcome to {{ user.name }}'s Skill Dashboard 🚀</span>
+    </div>
+
+    <div class="dashboard">
+        <h2>Hello, {{ user.name }}!</h2>
+        <h3>Your Skills</h3>
+
+        {% if user.skills %}
+            <ul>
+                {% for skill in user.skills %}
+                    <li>
+                        <div>
+                            {{ skill.name }} - {{ skill.level }}
+                            <span class="{% if skill.approved %}status-approved{% else %}status-pending{% endif %}">
+                                {% if skill.approved %}(Approved){% else %}(Pending){% endif %}
+                            </span>
+                        </div>
+                        <form class="delete-form" method="post" action="/skills/delete">
+                            <input type="hidden" name="skill_id" value="{{ skill.id }}">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align: center; font-weight: bold;">No skills added yet.</p>
+        {% endif %}
+
+        <a class="btn-add" href="/skills/add?user_id={{ user.id }}">➕ Add New Skill</a>
+    </div>
 
 </body>
 </html>

@@ -1,142 +1,193 @@
 <!-- <!DOCTYPE html>
 <html>
-<head><title>Allocate Project</title></head>
+<head>
+    <title>Allocate Project</title>
+</head>
 <body>
-  <h2>Allocate Project</h2>
-  <form method="post">
-    <input name="project_name" placeholder="Project Name" required><br>
-    <input name="skill_name" placeholder="Required Skill" required><br>
-    <label>Select Employee:</label>
-    <select name="employee_id">
-      {% for skill in skills %}
-        <option value="{{ skill.user_id }}">
-          {{ skill.owner.name }} ({{ skill.name }} - {{ skill.level }})
-        </option>
-      {% endfor %}
-    </select><br>
-    <button type="submit">Allocate</button>
-  </form>
+    <h2>Allocate Project</h2>
+
+    <form method="post" action="/projects/allocate">
+        <label for="project_name">Project Name:</label><br>
+        <input type="text" id="project_name" name="project_name" required><br><br>
+
+        <label for="skill_name">Skill Name:</label><br>
+        <select id="skill_name" name="skill_name" required>
+            <option value="" disabled selected>Select a skill</option>
+            {% for skill in skills %}
+                <option value="{{ skill.name }}">{{ skill.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="employee_id">Assign to Employee:</label><br>
+        <select id="employee_id" name="employee_id" required>
+            <option value="" disabled selected>Select an employee</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Assign Project</button>
+    </form>
 </body>
 </html> -->
+<!-- ------------------------------------------------------------------------------ -->
 
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Allocate Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        form {
+            max-width: 400px;
+        }
+        label, select, input, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        async function updateEmployeeOptions() {
+            const skillName = document.getElementById("skill_name").value;
+            const employeeSelect = document.getElementById("employee_id");
 
+            if (!skillName) return;
+
+            const response = await fetch(`/get_employees_by_skill?skill_name=${skillName}`);
+            const employees = await response.json();
+
+            employeeSelect.innerHTML = '<option value="" disabled selected>Select an employee</option>';
+            employees.forEach(emp => {
+                const option = document.createElement('option');
+                option.value = emp.id;
+                option.textContent = emp.name;
+                employeeSelect.appendChild(option);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Allocate Project</h2>
+
+    <form method="post" action="/projects/allocate">
+        <label for="project_name">Project Name:</label>
+        <input type="text" id="project_name" name="project_name" required>
+
+        <label for="skill_name">Skill Name:</label>
+        <select id="skill_name" name="skill_name" required onchange="updateEmployeeOptions()">
+            <option value="" disabled selected>Select a skill</option>
+            {% for skill in skills %}
+                <option value="{{ skill.name }}">{{ skill.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="employee_id">Assign to Employee:</label>
+        <select id="employee_id" name="employee_id" required>
+            <option value="" disabled selected>Select an employee</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Assign Project</button>
+    </form>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🚧 Allocate Project</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: linear-gradient(to right, #d3cce3, #e9e4f0);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allocate Project</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .container {
-      background-color: #ffffffee;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-      animation: popIn 0.5s ease;
-    }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
 
-    @keyframes popIn {
-      0% {
-        transform: scale(0.95);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
+        h2 {
+            text-align: center;
+            color: #3f51b5;
+        }
 
-    h2 {
-      font-size: 28px;
-      color: #4a148c;
-      margin-bottom: 20px;
-    }
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
 
-    .emoji {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
 
-    input, select {
-      width: 90%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: border 0.3s;
-    }
+        button {
+            background-color: #3f51b5;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 25px;
+        }
 
-    input:focus, select:focus {
-      border-color: #7b1fa2;
-      outline: none;
-    }
-
-    label {
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-      display: block;
-      margin-top: 15px;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      background: linear-gradient(45deg, #8e24aa, #5e35b1);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-    }
-
-    button:hover {
-      background: linear-gradient(45deg, #6a1b9a, #4527a0);
-      transform: scale(1.05);
-    }
-
-    .note {
-      font-size: 14px;
-      color: #555;
-      margin-top: 15px;
-    }
-  </style>
+        button:hover {
+            background-color: #303f9f;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="emoji">🏗️📋👥</div>
-    <h2>Allocate Project</h2>
-    <form method="post">
-      <input name="project_name" placeholder="📁 Project Name" required><br>
-      <input name="skill_name" placeholder="🛠️ Required Skill" required><br>
-      
-      <label>👤 Select Employee:</label>
-      <select name="employee_id" required>
-        {% for skill in skills %}
-          <option value="{{ skill.user_id }}">
-            👨‍💻 {{ skill.owner.name }} — {{ skill.name }} ({{ skill.level }})
-          </option>
-        {% endfor %}
-      </select><br>
+    <div class="container">
+        <h2>Allocate Project</h2>
 
-      <button type="submit">🚀 Allocate</button>
-    </form>
-    <p class="note">✅ Only employees with approved skills are shown here.</p>
-  </div>
+        <form method="post" action="/projects/allocate">
+            <label for="project_name">Project Name:</label>
+            <input type="text" id="project_name" name="project_name" required>
+
+            <label for="skill_name">Skill Name:</label>
+            <select id="skill_name" name="skill_name" required>
+                <option value="" disabled selected>Select a skill</option>
+                {% for skill in skills %}
+                    <option value="{{ skill.name }}">{{ skill.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="employee_id">Assign to Employee:</label>
+            <select id="employee_id" name="employee_id" required>
+                <option value="" disabled selected>Select an employee</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Assign Project</button>
+        </form>
+    </div>
 </body>
 </html>
