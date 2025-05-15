@@ -12,6 +12,43 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+
+# skill_app/main.py or wherever your app is initialized
+import logging
+import watchtower
+
+# Create logger
+logger = logging.getLogger("skill_app_logger")
+logger.setLevel(logging.INFO)
+
+# Add CloudWatch handler
+logger.addHandler(watchtower.CloudWatchLogHandler(log_group="SkillAppLogs"))
+
+# Example log
+logger.info("Skill app has started and connected to CloudWatch successfully.")
+
+
+import boto3
+
+# Create CloudWatch client
+cloudwatch = boto3.client('cloudwatch')
+
+# Send a custom metric
+cloudwatch.put_metric_data(
+    Namespace='SkillAppMetrics',  # Custom namespace
+    MetricData=[  # This should be a list of metric data dictionaries
+        {
+            'MetricName': 'UserLogins',  # Metric name
+            'Value': 1,  # Metric value
+            'Dimensions': [{'Name': 'AppName', 'Value': 'skill_app'}]
+
+            'Unit': 'Count'
+        },
+    ]
+)
+
+
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
