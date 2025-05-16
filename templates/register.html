@@ -1,38 +1,11 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <h2>Register</h2>
-    <form method="post" action="/register">
-        <label>Name:</label><br>
-        <input type="text" name="name" required><br><br>
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-        <label>Role:</label><br>
-        <select name="role">
-            <option value="Employee" selected>Employee</option>
-            <option value="Manager">Manager</option>
-            <option value="Admin">Admin</option>
-        </select><br><br>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="/login">Login here</a>.</p>
-</body>
-</html> -->
-<!-- -------------------------------------------------------------------------- -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Skill Management App - Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    /* Background Animation */
+    /* Animated background */
     body {
       margin: 0;
       padding: 0;
@@ -52,7 +25,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Scroll Text */
     .scrolling-heading {
       position: absolute;
       top: 0;
@@ -60,17 +32,18 @@
       overflow: hidden;
       white-space: nowrap;
       box-sizing: border-box;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 14px 0;
+      text-align: center;
     }
 
     .scrolling-heading span {
       display: inline-block;
       color: #00ffe1;
-      font-size: 1.4em;
+      font-size: 1.3em;
       font-weight: bold;
       text-shadow: 0 0 10px #00ffe1;
-      animation: scrollText 12s linear infinite;
+      animation: scrollText 10s linear infinite;
     }
 
     @keyframes scrollText {
@@ -78,7 +51,6 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Glass Form Card */
     .container {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
@@ -86,7 +58,7 @@
       padding: 40px;
       width: 90%;
       max-width: 450px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       animation: fadeInUp 1s ease-out;
@@ -102,7 +74,7 @@
       margin-bottom: 30px;
       font-size: 28px;
       color: #ffffff;
-      text-shadow: 0 0 8px #00ffe1;
+      text-shadow: 0 0 10px #00ffe1;
     }
 
     label {
@@ -115,13 +87,19 @@
     input, select {
       width: 100%;
       padding: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       border-radius: 10px;
       border: none;
       outline: none;
       font-size: 16px;
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 10px #00ffe1;
     }
 
     input::placeholder {
@@ -129,26 +107,33 @@
     }
 
     select {
-      color: #333;
+      color: #000;
     }
 
     button {
       width: 100%;
       padding: 12px;
-      background: linear-gradient(to right, #00ffe1, #1e90ff);
+      background: linear-gradient(45deg, #1e90ff, #00ffe1);
       color: #000;
-      border: none;
       font-weight: bold;
       font-size: 16px;
+      border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: 0.3s ease;
-      box-shadow: 0 0 10px #00ffe1, 0 0 20px #1e90ff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px #00ffe1;
     }
 
     button:hover {
-      background: linear-gradient(to right, #1e90ff, #00ffe1);
-      box-shadow: 0 0 20px #00ffe1, 0 0 30px #1e90ff;
+      background: linear-gradient(45deg, #00ffe1, #1e90ff);
+      box-shadow: 0 0 25px #1e90ff;
+    }
+
+    .validation-error {
+      color: black;
+      font-size: 0.85em;
+      margin-bottom: 12px;
+      text-shadow: none;
     }
 
     p {
@@ -182,15 +167,17 @@
 
   <div class="container">
     <h2>Register Now</h2>
-    <form method="post" action="/register">
+    <form id="registerForm" method="post" action="/register" novalidate>
       <label for="name">Full Name</label>
-      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="text" name="name" placeholder="Your Name" required />
 
       <label for="email">Email Address</label>
-      <input type="email" name="email" placeholder="you@example.com" required>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      <div id="emailError" class="validation-error"></div>
 
       <label for="password">Password</label>
-      <input type="password" name="password" placeholder="••••••••" required>
+      <input type="password" id="password" name="password" placeholder="••••••" required />
+      <div id="passwordError" class="validation-error"></div>
 
       <label for="role">Select Role</label>
       <select name="role" required>
@@ -204,5 +191,61 @@
     <p>Already have an account? <a href="/login">Login here</a>.</p>
   </div>
 
+  <script>
+    const form = document.getElementById('registerForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+
+    function countMatches(str, regex) {
+      const matches = str.match(regex);
+      return matches ? matches.length : 0;
+    }
+
+    function validateEmail(email) {
+      if (!email.endsWith('@gmail.com')) {
+        return "Email must be under '@gmail.com' domain.";
+      }
+      return "";
+    }
+
+    function validatePassword(password) {
+      if (password.length > 6) {
+        return "Password must be at most 6 characters long.";
+      }
+      if (countMatches(password, /[!@#$%^&*(),.?\":{}|<>]/g) < 2) {
+        return "Password must include at least 2 special characters.";
+      }
+      if (countMatches(password, /\d/g) < 2) {
+        return "Password must include at least 2 digits.";
+      }
+      if (countMatches(password, /[A-Za-z]/g) < 2) {
+        return "Password must include at least 2 letters.";
+      }
+      return "";
+    }
+
+    emailInput.addEventListener('input', () => {
+      const errMsg = validateEmail(emailInput.value);
+      emailError.textContent = errMsg;
+    });
+
+    passwordInput.addEventListener('input', () => {
+      const errMsg = validatePassword(passwordInput.value);
+      passwordError.textContent = errMsg;
+    });
+
+    form.addEventListener('submit', function(event) {
+      let emailMsg = validateEmail(emailInput.value);
+      let passwordMsg = validatePassword(passwordInput.value);
+      emailError.textContent = emailMsg;
+      passwordError.textContent = passwordMsg;
+
+      if (emailMsg || passwordMsg) {
+        event.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>

@@ -12,40 +12,60 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+import re
+from fastapi import HTTPException
 
-# skill_app/main.py or wherever your app is initialized
-import logging
-import watchtower
+def validate_email_domain(email: str):
+    if not email.endswith("@gmail.com"):
+        raise HTTPException(status_code=400, detail="Email must be under '@gmail.com' domain.")
 
-# Create logger
-logger = logging.getLogger("skill_app_logger")
-logger.setLevel(logging.INFO)
+def validate_password_strength(password: str):
+    if len(password) > 6:
+        raise HTTPException(status_code=400, detail="Password must be at most 6 characters long.")
+    if len(re.findall(r"[!@#$%^&*(),.?\":{}|<>]", password)) < 2:
+        raise HTTPException(status_code=400, detail="Password must include at least 2 special characters.")
+    if len(re.findall(r"[0-9]", password)) < 2:
+        raise HTTPException(status_code=400, detail="Password must include at least 2 digits.")
+    if len(re.findall(r"[A-Za-z]", password)) < 2:
+        raise HTTPException(status_code=400, detail="Password must include at least 2 letters.")
 
-# Add CloudWatch handler
-logger.addHandler(watchtower.CloudWatchLogHandler(log_group="SkillAppLogs"))
-
-# Example log
-logger.info("Skill app has started and connected to CloudWatch successfully.")
 
 
-import boto3
 
-# Create CloudWatch client
-cloudwatch = boto3.client('cloudwatch')
 
-# Send a custom metric
-cloudwatch.put_metric_data(
-    Namespace='SkillAppMetrics',  # Custom namespace
-    MetricData=[  # This should be a list of metric data dictionaries
-        {
-            'MetricName': 'UserLogins',  # Metric name
-            'Value': 1,  # Metric value
-            'Dimensions': [{'Name': 'AppName', 'Value': 'skill_app'}]
+# # skill_app/main.py or wherever your app is initialized
+# import logging
+# import watchtower
 
-            'Unit': 'Count'
-        },
-    ]
-)
+# # Create logger
+# logger = logging.getLogger("skill_app_logger")
+# logger.setLevel(logging.INFO)
+
+# # Add CloudWatch handler
+# logger.addHandler(watchtower.CloudWatchLogHandler(log_group="SkillAppLogs"))
+
+# # Example log
+# logger.info("Skill app has started and connected to CloudWatch successfully.")
+
+
+# import boto3
+
+# # Create CloudWatch client
+# cloudwatch = boto3.client('cloudwatch')
+
+# # Send a custom metric
+# cloudwatch.put_metric_data(
+#     Namespace='SkillAppMetrics',  # Custom namespace
+#     MetricData=[  # This should be a list of metric data dictionaries
+#         {
+#             'MetricName': 'UserLogins',  # Metric name
+#             'Value': 1,  # Metric value
+#             'Dimensions': [{'Name': 'AppName', 'Value': 'skill_app'}]
+
+#             'Unit': 'Count'
+#         },
+#     ]
+# )
 
 
 
@@ -154,24 +174,45 @@ async def reset_password_form(request: Request, token: str, db: Session = Depend
         return templates.TemplateResponse("reset_password.html", {"request": request, "token": token, "msg": "Invalid or expired token"})
 
 
+# @app.post("/reset-password/{token}")
+# async def reset_password(token: str, new_password: str = Form(...), db: Session = Depends(get_db)):
+#     # ✅ DO NOT manually recreate db session
+#     reset_token = db.query(models.PasswordResetToken).filter(models.PasswordResetToken.token == token).first()
+
+#     if not reset_token:
+#         raise HTTPException(status_code=400, detail="Invalid token.")
+    
+#     if reset_token.expiration_time < datetime.utcnow():
+#         raise HTTPException(status_code=400, detail="Token has expired.")
+    
+#     user = db.query(models.User).filter(models.User.id == reset_token.user_id).first()
+#     if not user:
+#         raise HTTPException(status_code=400, detail="User not found.")
+
+#     user.password = hash_password(new_password)
+#     db.delete(reset_token)
+#     db.commit()
+
 @app.post("/reset-password/{token}")
 async def reset_password(token: str, new_password: str = Form(...), db: Session = Depends(get_db)):
-    # ✅ DO NOT manually recreate db session
+    validate_password_strength(new_password)  # <-- Add this line
+    
     reset_token = db.query(models.PasswordResetToken).filter(models.PasswordResetToken.token == token).first()
-
     if not reset_token:
         raise HTTPException(status_code=400, detail="Invalid token.")
-    
     if reset_token.expiration_time < datetime.utcnow():
-        raise HTTPException(status_code=400, detail="Token has expired.")
+        raise HTTPException(status_code=400, detail="Token expired.")
     
     user = db.query(models.User).filter(models.User.id == reset_token.user_id).first()
     if not user:
         raise HTTPException(status_code=400, detail="User not found.")
-
+    
     user.password = hash_password(new_password)
     db.delete(reset_token)
     db.commit()
+    
+    return RedirectResponse(url="/login", status_code=303)
+
 
     return RedirectResponse(url="/login", status_code=303)
 from fastapi import Form, HTTPException, Depends
@@ -187,26 +228,17 @@ def admin_register_form(request: Request):
     return templates.TemplateResponse("admin_register.html", {"request": request})
 
 @app.post("/admin/register")
-def admin_register(
-    request: Request,
-    name: str = Form(...),
-    email: str = Form(...),
-    password: str = Form(...),
-    db: Session = Depends(get_db)
-):
+def admin_register(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+    validate_email_domain(email)          # <-- Add this line
+    validate_password_strength(password)  # <-- Add this line
+    
     existing_user = db.query(models.User).filter(models.User.email == email).first()
     if existing_user:
-        return templates.TemplateResponse("admin_register.html", {
-            "request": request,
-            "msg": "Email already registered"
-        })
-
-    hashed_pw = hash_password(password)
-    user = models.User(name=name, email=email, password=hashed_pw, role="Admin")
+        return templates.TemplateResponse("admin_register.html", {"request": request, "msg": "Email already registered"})
+    
+    user = models.User(name=name, email=email, password=hash_password(password), role="Admin")
     db.add(user)
     db.commit()
-    db.refresh(user)
-
     return RedirectResponse(url="/admin/login", status_code=303)
 
 # ----------------------
@@ -297,6 +329,21 @@ async def admin_login(
 @app.get("/register", response_class=HTMLResponse)
 def register_form(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
+# @app.post("/register")
+# def register_user(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+#     validate_email_domain(email)          # <-- Add this line
+#     validate_password_strength(password)  # <-- Add this line
+    
+#     existing_user = db.query(models.User).filter(models.User.email == email).first()
+#     if existing_user:
+#         return templates.TemplateResponse("register.html", {"request": request, "msg": "Email already registered"})
+    
+#     user = models.User(name=name, email=email, password=hash_password(password), role="User")
+#     db.add(user)
+#     db.commit()
+#     return RedirectResponse(url="/login", status_code=303)
+
+from fastapi import Request
 
 @app.post("/register")
 def register_user(
@@ -304,25 +351,63 @@ def register_user(
     name: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
+    role: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    # Check if the email is already registered
+    try:
+        validate_email_domain(email)
+        validate_password_strength(password)
+    except HTTPException as e:
+        # Render form again with error message and previously filled data
+        return templates.TemplateResponse("register.html", {
+            "request": request,
+            "error_msg": e.detail,
+            "name": name,
+            "email": email,
+            "role": role
+        })
+
     existing_user = db.query(models.User).filter(models.User.email == email).first()
     if existing_user:
         return templates.TemplateResponse("register.html", {
             "request": request,
-            "msg": "Email already registered"
+            "error_msg": "Email already registered",
+            "name": name,
+            "email": email,
+            "role": role
         })
 
-    # Hash the password before saving
-    hashed_pw = hash_password(password)
-    user = models.User(name=name, email=email, password=hashed_pw, role="User")  # Default role is User
+    user = models.User(name=name, email=email, password=hash_password(password), role=role)
     db.add(user)
     db.commit()
-    db.refresh(user)
-
-    # Redirect to the login page after successful registration
     return RedirectResponse(url="/login", status_code=303)
+
+
+# @app.post("/register")
+# def register_user(
+#     request: Request,
+#     name: str = Form(...),
+#     email: str = Form(...),
+#     password: str = Form(...),
+#     db: Session = Depends(get_db)
+# ):
+#     # Check if the email is already registered
+#     existing_user = db.query(models.User).filter(models.User.email == email).first()
+#     if existing_user:
+#         return templates.TemplateResponse("register.html", {
+#             "request": request,
+#             "msg": "Email already registered"
+#         })
+
+#     # Hash the password before saving
+#     hashed_pw = hash_password(password)
+#     user = models.User(name=name, email=email, password=hashed_pw, role="User")  # Default role is User
+#     db.add(user)
+#     db.commit()
+#     db.refresh(user)
+
+#     # Redirect to the login page after successful registration
+#     return RedirectResponse(url="/login", status_code=303)
 from fastapi import Form, HTTPException, Depends
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
